@@ -1,0 +1,17 @@
+{
+  "name": "@ocp-catalog/channel-provider-mock",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "cd ../.. && bun apps/channel-provider-mock/src/index.ts",
+    "register": "cd ../.. && bun apps/channel-provider-mock/src/register.ts",
+    "sync": "cd ../.. && bun apps/channel-provider-mock/src/sync.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test --pass-with-no-tests"
+  },
+  "dependencies": {
+    "@ocp-catalog/ocp-schema": "workspace:*"
+  }
+}

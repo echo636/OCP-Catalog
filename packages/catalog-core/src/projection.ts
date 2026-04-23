@@ -1,8 +1,15 @@
 import { isRecord } from './field-ref';
 
 export function visibleAttributes(projection: Record<string, unknown>) {
+  // Scenario-neutral convention: projection keys starting with `__` are kept
+  // in the stored projection so Resolve-time action builders can read them,
+  // but are stripped from the visible_attributes returned to callers. This
+  // lets a scenario carry Resolve-only payload (e.g. channel contact info)
+  // without leaking through search results.
   const hidden = new Set(['text']);
-  return Object.fromEntries(Object.entries(projection).filter(([key]) => !hidden.has(key)));
+  return Object.fromEntries(
+    Object.entries(projection).filter(([key]) => !hidden.has(key) && !key.startsWith('__')),
+  );
 }
 
 export function stringField(value: unknown) {
