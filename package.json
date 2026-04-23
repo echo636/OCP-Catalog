@@ -23,6 +23,10 @@
     "registration:admin": "bun run --cwd apps/ocp-registration-admin-web start",
     "commerce:provider:api": "bun run --cwd apps/examples/commerce-provider-api start",
     "commerce:provider:admin": "bun run --cwd apps/examples/commerce-provider-admin-web dev",
+    "channel:catalog:api": "bun run --cwd apps/channel-catalog-api start",
+    "channel:provider:mock": "bun run --cwd apps/channel-provider-mock start",
+    "channel:provider:register": "bun run --cwd apps/channel-provider-mock register",
+    "channel:provider:sync": "bun run --cwd apps/channel-provider-mock sync",
     "user:demo:api": "bun run --cwd apps/examples/ocp-user-demo-api start",
     "user:demo": "bun run --cwd apps/examples/ocp-user-demo-web dev",
     "webmcp:demo": "bun run --cwd apps/examples/ocp-webmcp-mcp-demo-web dev",
@@ -32,6 +36,7 @@
     "validate:mvp": "bun scripts/validate-mvp.ts",
     "validate:registration": "bun scripts/validate-registration.ts",
     "validate:mcp": "bun scripts/validate-mcp-gateway.ts",
+    "validate:channel-mvp": "bun scripts/validate-channel-mvp.ts",
     "db:generate": "bun run --cwd packages/db generate",
     "db:migrate": "bun run --cwd packages/db migrate",
     "db:studio": "bun run --cwd packages/db studio"

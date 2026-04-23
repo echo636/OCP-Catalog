@@ -1,0 +1,240 @@
+export type DemoOpportunity = {
+  object_id: string;
+  title: string;
+  summary: string;
+  operator_name: string;
+  industry: string;
+  opportunity_url: string;
+  opportunity_status: 'open' | 'waitlist' | 'closed';
+  image_urls?: string[];
+
+  commission_model: 'revshare' | 'flat_fee' | 'tiered' | 'per_lead' | 'custom';
+  commission_rate_percent?: number;
+  flat_fee_amount?: number;
+  flat_fee_currency?: string;
+  settlement_cycle_days?: number;
+  minimum_payout_amount?: number;
+
+  regions: string[];
+  industries?: string[];
+  languages?: string[];
+
+  qualification_level: 'none' | 'basic' | 'verified' | 'enterprise';
+  requires_business_license?: boolean;
+  requires_prior_experience?: boolean;
+  minimum_budget_amount?: number;
+  minimum_budget_currency?: string;
+
+  contact_name?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  contact_url?: string;
+};
+
+// Hand-crafted demo set. Mix of industries / regions / commission models so
+// filter queries have meaningful coverage.
+export const demoOpportunities: DemoOpportunity[] = [
+  {
+    object_id: 'saas-crm-east-001',
+    title: '企业 SaaS CRM 华东代理招募',
+    summary: '面向中小企业客户的 SaaS CRM 代理计划，提供续约分成与区域独家权益。',
+    operator_name: 'Sino-Cloud CRM',
+    industry: 'enterprise_saas',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/saas-crm-east-001',
+    opportunity_status: 'open',
+    image_urls: ['https://channel-mock.example.test/img/saas-crm-east-001.jpg'],
+    commission_model: 'revshare',
+    commission_rate_percent: 25,
+    settlement_cycle_days: 30,
+    minimum_payout_amount: 1000,
+    regions: ['china_east'],
+    industries: ['enterprise_saas', 'smb'],
+    languages: ['zh'],
+    qualification_level: 'verified',
+    requires_business_license: true,
+    requires_prior_experience: true,
+    minimum_budget_amount: 50000,
+    minimum_budget_currency: 'CNY',
+    contact_name: 'Zhang Wei',
+    contact_email: 'partners-east@sino-cloud.example.test',
+    contact_phone: '+86 21 5555 0101',
+  },
+  {
+    object_id: 'saas-crm-south-002',
+    title: '企业 SaaS CRM 华南代理招募',
+    summary: '华南地区 SaaS CRM 分销合作，阶梯分成，适合中等规模代理团队。',
+    operator_name: 'Sino-Cloud CRM',
+    industry: 'enterprise_saas',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/saas-crm-south-002',
+    opportunity_status: 'open',
+    commission_model: 'tiered',
+    commission_rate_percent: 30,
+    settlement_cycle_days: 30,
+    regions: ['china_south'],
+    industries: ['enterprise_saas'],
+    languages: ['zh'],
+    qualification_level: 'verified',
+    requires_business_license: true,
+    minimum_budget_amount: 30000,
+    minimum_budget_currency: 'CNY',
+    contact_email: 'partners-south@sino-cloud.example.test',
+  },
+  {
+    object_id: 'fintech-lending-north-003',
+    title: '消费金融助贷渠道合作',
+    summary: '持牌消费金融机构寻找线上助贷流量合作方，按放款金额 per-lead 结算。',
+    operator_name: 'NorthBay Consumer Finance',
+    industry: 'fintech',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/fintech-lending-north-003',
+    opportunity_status: 'open',
+    commission_model: 'per_lead',
+    flat_fee_amount: 80,
+    flat_fee_currency: 'CNY',
+    settlement_cycle_days: 15,
+    regions: ['china_north', 'china_east'],
+    industries: ['fintech', 'consumer_finance'],
+    languages: ['zh'],
+    qualification_level: 'enterprise',
+    requires_business_license: true,
+    requires_prior_experience: true,
+    contact_name: 'Liu Xia',
+    contact_email: 'bd@northbay.example.test',
+    contact_url: 'https://channel-mock.example.test/apply/fintech-lending-north-003',
+  },
+  {
+    object_id: 'retail-beverage-global-004',
+    title: '现制茶饮品牌全球加盟',
+    summary: '连锁现制茶饮品牌开放区域加盟，提供选址 / 培训 / 供应链一体化支持。',
+    operator_name: 'Bubblewave Tea',
+    industry: 'retail_food_beverage',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/retail-beverage-global-004',
+    opportunity_status: 'open',
+    image_urls: ['https://channel-mock.example.test/img/retail-beverage-global-004.jpg'],
+    commission_model: 'flat_fee',
+    flat_fee_amount: 120000,
+    flat_fee_currency: 'CNY',
+    regions: ['china_east', 'china_south', 'southeast_asia', 'global'],
+    industries: ['retail_food_beverage'],
+    languages: ['zh', 'en'],
+    qualification_level: 'basic',
+    requires_business_license: true,
+    minimum_budget_amount: 300000,
+    minimum_budget_currency: 'CNY',
+    contact_name: 'Chen Ling',
+    contact_email: 'franchise@bubblewave.example.test',
+    contact_phone: '+86 755 5555 0404',
+  },
+  {
+    object_id: 'saas-hr-east-005',
+    title: 'HR SaaS 代理机会 - 华东 waitlist',
+    summary: 'HR SaaS 华东地区独家代理名额已满，当前接受排队申请。',
+    operator_name: 'PeopleFlow',
+    industry: 'enterprise_saas',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/saas-hr-east-005',
+    opportunity_status: 'waitlist',
+    commission_model: 'revshare',
+    commission_rate_percent: 20,
+    regions: ['china_east'],
+    industries: ['enterprise_saas', 'hr_tech'],
+    languages: ['zh'],
+    qualification_level: 'verified',
+    contact_email: 'waitlist@peopleflow.example.test',
+  },
+  {
+    object_id: 'edu-k12-east-006',
+    title: 'K12 素质教育课程代理',
+    summary: '华东一二线城市素质教育课程招募线下渠道代理。',
+    operator_name: 'BrightPath Education',
+    industry: 'education',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/edu-k12-east-006',
+    opportunity_status: 'open',
+    commission_model: 'revshare',
+    commission_rate_percent: 35,
+    settlement_cycle_days: 45,
+    regions: ['china_east'],
+    industries: ['education', 'k12'],
+    languages: ['zh'],
+    qualification_level: 'basic',
+    minimum_budget_amount: 80000,
+    minimum_budget_currency: 'CNY',
+    contact_email: 'channels@brightpath.example.test',
+    contact_phone: '+86 21 5555 0606',
+  },
+  {
+    object_id: 'saas-marketing-global-007',
+    title: 'Marketing automation 全球分销机会',
+    summary: 'Marketing automation 平台寻求全球分销代理，支持英语 / 中文市场。',
+    operator_name: 'Relay Automation',
+    industry: 'enterprise_saas',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/saas-marketing-global-007',
+    opportunity_status: 'open',
+    image_urls: ['https://channel-mock.example.test/img/saas-marketing-global-007.jpg'],
+    commission_model: 'tiered',
+    commission_rate_percent: 22,
+    settlement_cycle_days: 30,
+    regions: ['global', 'north_america', 'europe', 'china_east'],
+    industries: ['enterprise_saas', 'marketing_tech'],
+    languages: ['en', 'zh'],
+    qualification_level: 'verified',
+    requires_prior_experience: true,
+    minimum_budget_amount: 20000,
+    minimum_budget_currency: 'USD',
+    contact_name: 'Priya Narayan',
+    contact_email: 'partners@relay.example.test',
+    contact_url: 'https://channel-mock.example.test/apply/saas-marketing-global-007',
+  },
+  {
+    object_id: 'logistics-lastmile-south-008',
+    title: '末端配送加盟商招募',
+    summary: '即时物流品牌在华南招募末端配送站点加盟商。',
+    operator_name: 'SwiftDash Logistics',
+    industry: 'logistics',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/logistics-lastmile-south-008',
+    opportunity_status: 'open',
+    commission_model: 'per_lead',
+    flat_fee_amount: 12,
+    flat_fee_currency: 'CNY',
+    settlement_cycle_days: 7,
+    regions: ['china_south'],
+    industries: ['logistics', 'lastmile'],
+    languages: ['zh'],
+    qualification_level: 'basic',
+    contact_email: 'bd@swiftdash.example.test',
+    contact_phone: '+86 20 5555 0808',
+  },
+  {
+    object_id: 'medical-devices-east-009',
+    title: '家用医疗器械区域代理',
+    summary: '二类家用医疗器械华东区域独家代理。',
+    operator_name: 'MediHome',
+    industry: 'medical_devices',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/medical-devices-east-009',
+    opportunity_status: 'closed',
+    commission_model: 'revshare',
+    commission_rate_percent: 18,
+    regions: ['china_east'],
+    industries: ['medical_devices', 'consumer_health'],
+    languages: ['zh'],
+    qualification_level: 'enterprise',
+    requires_business_license: true,
+    contact_email: 'closed-partners@medihome.example.test',
+  },
+  {
+    object_id: 'saas-devtools-global-010',
+    title: 'Developer tools 开发者渠道推广',
+    summary: '面向开发者社区 / KOL / MSP 的 Dev tools 平台分销计划。',
+    operator_name: 'Tideway DevTools',
+    industry: 'developer_tools',
+    opportunity_url: 'https://channel-mock.example.test/opportunities/saas-devtools-global-010',
+    opportunity_status: 'open',
+    commission_model: 'revshare',
+    commission_rate_percent: 28,
+    settlement_cycle_days: 30,
+    regions: ['global', 'north_america', 'china_east'],
+    industries: ['developer_tools', 'enterprise_saas'],
+    languages: ['en', 'zh'],
+    qualification_level: 'none',
+    contact_name: 'Mika Kobayashi',
+    contact_email: 'partners@tideway.example.test',
+  },
+];
