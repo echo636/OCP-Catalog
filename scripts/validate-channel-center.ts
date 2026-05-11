@@ -2,9 +2,9 @@
 // filter schema). Verify the channel catalog can register to Center, be
 // resolved, and be searched using the actually-supported filter keys.
 
-const centerBaseUrl = 'http://localhost:4100';
+const registrationBaseUrl = 'http://localhost:4100';
 const catalogBaseUrl = 'http://localhost:4001';
-const centerId = 'center_local_dev';
+const registrationId = 'registration_local_dev';
 const catalogId = 'channel_catalog_local_dev';
 const registrationVersion = Math.floor(Date.now() / 1000);
 
@@ -12,8 +12,8 @@ const checks: string[] = [];
 let catalogToken = '';
 
 await check('Center + channel catalog are both healthy', async () => {
-  const centerHealth = await get(`${centerBaseUrl}/health`);
-  assert(centerHealth.ok === true, 'center health');
+  const registrationHealth = await get(`${registrationBaseUrl}/health`);
+  assert(registrationHealth.ok === true, 'center health');
   const catalogHealth = await get(`${catalogBaseUrl}/health`);
   assert(catalogHealth.service === 'channel-catalog-api', 'channel catalog health');
 });
@@ -28,11 +28,11 @@ await check('Center can fetch channel catalog discovery + manifest', async () =>
 });
 
 await check('Channel catalog registers to Center and is indexed', async () => {
-  const result = await post(`${centerBaseUrl}/ocp/catalogs/register`, {
+  const result = await post(`${registrationBaseUrl}/ocp/catalogs/register`, {
     ocp_version: '1.0',
     kind: 'CatalogRegistration',
     id: `catreg_${catalogId}_${registrationVersion}`,
-    center_id: centerId,
+    registration_id: registrationId,
     catalog_id: catalogId,
     registration_version: registrationVersion,
     updated_at: new Date().toISOString(),
@@ -54,7 +54,7 @@ await check('Channel catalog registers to Center and is indexed', async () => {
 });
 
 await check('Center resolve by catalog_id returns route hint to channel catalog', async () => {
-  const routeHint = await post(`${centerBaseUrl}/ocp/catalogs/resolve`, {
+  const routeHint = await post(`${registrationBaseUrl}/ocp/catalogs/resolve`, {
     ocp_version: '1.0',
     kind: 'CatalogResolveRequest',
     catalog_id: catalogId,
@@ -65,14 +65,14 @@ await check('Center resolve by catalog_id returns route hint to channel catalog'
 });
 
 await check('Center GET /ocp/catalogs/:id exposes channel catalog profile', async () => {
-  const info = await get(`${centerBaseUrl}/ocp/catalogs/${catalogId}`);
+  const info = await get(`${registrationBaseUrl}/ocp/catalogs/${catalogId}`);
   assert(info.catalogId === catalogId, `catalog_id should match, got ${info.catalogId}`);
   assert(info.status === 'accepted_indexed', `status should be accepted_indexed, got ${info.status}`);
   assert(info.verificationStatus === 'verified', `verification should be verified, got ${info.verificationStatus}`);
 });
 
 await check('Center manifest snapshot retains channel contract', async () => {
-  const snapshot = await get(`${centerBaseUrl}/ocp/catalogs/${catalogId}/manifest-snapshot`);
+  const snapshot = await get(`${registrationBaseUrl}/ocp/catalogs/${catalogId}/manifest-snapshot`);
   const manifest = snapshot.manifestPayload;
   assert(manifest?.kind === 'CatalogManifest', `snapshot manifestPayload missing, got ${JSON.stringify(snapshot).slice(0, 200)}`);
   const capability = manifest.query_capabilities?.find((c: any) => c.capability_id === 'ocp.channel.opportunity.search.v1');
@@ -84,7 +84,7 @@ await check('Center manifest snapshot retains channel contract', async () => {
 });
 
 await check('Catalog search with `tag=招商` returns channel catalog', async () => {
-  const result = await post(`${centerBaseUrl}/ocp/catalogs/search`, {
+  const result = await post(`${registrationBaseUrl}/ocp/catalogs/search`, {
     ocp_version: '1.0',
     kind: 'CatalogSearchRequest',
     query: 'channel',
@@ -98,7 +98,7 @@ await check('Catalog search with `tag=招商` returns channel catalog', async ()
 });
 
 await check('Catalog refresh with token works', async () => {
-  const result = await post(`${centerBaseUrl}/ocp/catalogs/${catalogId}/refresh`, {}, {
+  const result = await post(`${registrationBaseUrl}/ocp/catalogs/${catalogId}/refresh`, {}, {
     'x-catalog-token': catalogToken,
   });
   assert(result.status === 'refreshed', `expected refreshed, got ${result.status}`);

@@ -12,7 +12,7 @@
 //
 // The client never hardcodes http://localhost:4001.
 
-const centerBaseUrl = 'http://localhost:4100';
+const registrationBaseUrl = 'http://localhost:4100';
 const registrationVersion = Math.floor(Date.now() / 1000);
 
 // Pre-step: ensure the channel catalog is registered to Center. In a real
@@ -23,7 +23,7 @@ await registerChannelCatalog();
 console.log('\n=== User journey starts: client only knows the Center URL ===');
 
 // Step 1: client asks Center for a catalog that handles 招商
-const searchResult = await post(`${centerBaseUrl}/ocp/catalogs/search`, {
+const searchResult = await post(`${registrationBaseUrl}/ocp/catalogs/search`, {
   ocp_version: '1.0',
   kind: 'CatalogSearchRequest',
   query: '招商',
@@ -105,11 +105,11 @@ async function registerChannelCatalog() {
   // not the client-side journey. The journey after this line uses only Center.
   const catalogBaseUrl = 'http://localhost:4001';
   const discovery = await get(`${catalogBaseUrl}/.well-known/ocp-catalog`);
-  await post(`${centerBaseUrl}/ocp/catalogs/register`, {
+  await post(`${registrationBaseUrl}/ocp/catalogs/register`, {
     ocp_version: '1.0',
     kind: 'CatalogRegistration',
     id: `catreg_${discovery.catalog_id}_${registrationVersion}`,
-    center_id: 'center_local_dev',
+    registration_id: 'registration_local_dev',
     catalog_id: discovery.catalog_id,
     registration_version: registrationVersion,
     updated_at: new Date().toISOString(),
